@@ -1,32 +1,37 @@
-<?php
-$host="localhost";
-$user="root";
-$pass="";
-$db="registration";
-$conn=mysqli_connect($host,$user,$pass);
-mysqli_select_db($conn,$db);
-if(isset($_POST['username'])){
-    $username=$_POST['username'];
+<?php session_start();
+require_once('dbconnection.php');
+
+if(isset($_POST['login']))
+{
     $password=$_POST['password'];
-    $sql="SELECT * from finals where username='".$username."' AND password='".$password."' limit 1";
-    
-    $result=mysqli_query($conn,$sql);
-    
-    $check=mysqli_num_rows($result);
-    if($check==1){
-        echo "<script> location.href='new.php'; </script>";
+    $dec_password=$password;
+    $useremail=$_POST['uemail'];
+    $ret= mysqli_query($con,"SELECT * FROM login_ind WHERE username='$useremail' and password='$dec_password'");
+    $num=mysqli_fetch_array($ret);
+    if($num>0)
+    {
+        $extra="welcome.php";
+        $_SESSION['login']=$_POST['uemail'];
+        $_SESSION['id']=$num['id'];
+        $_SESSION['name']=$num['fname'];
+        $host=$_SERVER['HTTP_HOST'];
+        $uri=rtrim(dirname($_SERVER['PHP_SELF']),'/\\');
+        header("location: ../index.php");
+        exit();
     }
-    else{
-        echo '<p style="color:white;text-align:center;padding-top:70px;font-size:20px;font-family:sans-serif;">
-      Enter correct username/password</p> ';
-   }
+    else
+    {
+        echo "<script>alert('Invalid username or password');</script>";
+        header("Refresh:0");
+        exit();
+    }
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Academia-Portal Login</title>
+	<title>Industry-Portal Login</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
@@ -55,13 +60,13 @@ if(isset($_POST['username'])){
 					<img src="images/img-01.png" alt="IMG">
 				</div>
 
-				<form class="login100-form validate-form">
+				<form class="login100-form validate-form" name="login" action="" method="post">
 					<span class="login100-form-title">
-						Academia Portal Login
+						Industry Portal Login
 					</span>
 
 					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-						<input class="input100" type="text" name="email" placeholder="Email">
+						<input class="input100" type="text" name="uemail" placeholder="Email">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-envelope" aria-hidden="true"></i>
@@ -69,7 +74,7 @@ if(isset($_POST['username'])){
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate = "Password is required">
-						<input class="input100" type="password" name="pass" placeholder="Password">
+						<input class="input100" type="password" name="password" placeholder="Password">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-lock" aria-hidden="true"></i>
@@ -77,9 +82,8 @@ if(isset($_POST['username'])){
 					</div>
 					
 					<div class="container-login100-form-btn">
-						<button class="login100-form-btn">
-							Login
-						</button>
+                        <input class="login100-form-btn" type="submit" name="login" value="LOG IN" >
+						
 					</div>
 
 					<div class="text-center p-t-12">
@@ -92,7 +96,7 @@ if(isset($_POST['username'])){
 					</div>
 
 					<div class="text-center p-t-136">
-						<a class="txt2" href="#">
+						<a class="txt2" href="./reg_ind/index.php">
 							Create your Account
 							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
 						</a>
