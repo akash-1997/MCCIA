@@ -58,7 +58,7 @@
         <h2 class="text-white-50 mx-auto mt-2 mb-5">Welcome to the portal that achieves Industry-Academia connectivity!</h2>
           <br><br><br>
         <a href="Login_ind/index.php" class="btn btn-primary  js-scroll-trigger">Industry Portal</a>&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="Login_acad/index.html" class="btn btn-primary js-scroll-trigger">Academia Portal</a>
+        <a href="Login_acad/index.php" class="btn btn-primary js-scroll-trigger">Academia Portal</a>
       </div>
     </div>
   </header>

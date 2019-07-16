@@ -16,7 +16,7 @@ if(isset($_POST['login']))
         $_SESSION['name']=$num['fname'];
         $host=$_SERVER['HTTP_HOST'];
         $uri=rtrim(dirname($_SERVER['PHP_SELF']),'/\\');
-        header("location: ../index.php");
+        header("location: ../Industry/index.php");
         exit();
     }
     else
